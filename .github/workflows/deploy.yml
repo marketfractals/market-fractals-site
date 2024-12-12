@@ -1,0 +1,52 @@
+name: Build and Deploy React App
+
+on:
+  push:
+    branches:
+      - main  # Deploy when changes are pushed to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Set up Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+
+    # Install dependencies and build
+    - name: Install and Build
+      run: |
+        yarn install
+        yarn build
+
+    # Containerize the app with Docker
+    - name: Build Docker image
+      run: docker build -t market-fractals-site .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+    # Copy Docker image to server and deploy
+      - uses: actions/checkout@v4
+      - name: Build & Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Run Docker container
+        run: ssh -i ${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }} ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}@${{ secrets.CLOUDFLARE_API }} \
+          "docker-compose -f ~/my-react-app/docker-compose.yml up -d"
+    
+      - name: Start Cloudflare Tunnel
+        run: ssh -i ${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }} ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}@${{ secrets.CLOUDFLARE_API }} \
+          "cloudflared tunnel run my-react-app"
