@@ -58,9 +58,10 @@ jobs:
 
       - name: Set up SSH agent
         run: |
-          echo "${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}" | ssh-add - > /dev/null
+          eval $(ssh-agent -s)
+          echo "${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}" | ssh-add -
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}
+          MARKETFRACTALS_GITHUB_SSH_KEY: ${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}
 
 
       - name: Debugging Cloudflare and SSH Config
