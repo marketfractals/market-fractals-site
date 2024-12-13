@@ -55,6 +55,7 @@ jobs:
           echo "Listing all SSH configurations:"
           ls -al /etc/ssh/
           echo "Listing files in cloudflared config directory:"
+          which cloudflared
           ls -al /etc/cloudflared/
           echo "Displaying content of config files:"
           cat /etc/cloudflared/config.yml || echo "No cloudflared config file"
