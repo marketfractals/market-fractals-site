@@ -66,10 +66,6 @@ jobs:
           echo "chekc ssh_config.d"
           ls -al /etc/ssh/ssh_config.d/
 
-      - name: Test SSH connection
-        run: |
-          ssh -vvv github.com
-
       - name: SSH into server
         run: |
           ssh -vvv ssh.marketfractals.com "echo 'Deploying application'; git pull origin main; docker-compose up --build -d"
