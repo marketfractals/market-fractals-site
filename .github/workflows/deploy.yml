@@ -35,18 +35,15 @@ jobs:
 
       - name: Install Wrangler Globally
         run: npm install -g wrangler@3.15.0
-      
-      - name: Build & Deploy Worker
-        uses: cloudflare/wrangler-action@v3
+        
+      - name: SSH into server and deploy
+        uses: appleboy/ssh-action@v0.1.7
         with:
-          wrangler_version: "3.15.0"
-          apiToken: ${{ secrets.CLOUDFLARE_API }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-
-      - name: Run Docker container
-        run: ssh -i ${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }} ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}@${{ secrets.CLOUDFLARE_API }} \
-          "docker-compose -f ~/my-react-app/docker-compose.yml up -d"
-    
-      - name: Start Cloudflare Tunnel
-        run: ssh -i ${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }} ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}@${{ secrets.CLOUDFLARE_API }} \
-          "cloudflared tunnel run my-react-app"
+          host: ssh.marketfractals.com  # The Cloudflare Tunnel hostname
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}
+          port: 22
+          script: |
+            cd /path/to/your/project
+            git pull origin main
+            docker-compose up --build -d
