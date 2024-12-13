@@ -33,13 +33,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
-      - name: SSH into server and deploy
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ssh.marketfractals.com  # The Cloudflare Tunnel hostname
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}
-          ports: "22:22"
-          script: |
+      - name: Set up SSH configuration
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "Host ssh.marketfractals.com
+                Hostname ssh.marketfractals.com
+                User ${{ secrets.USER }}
+                ProxyCommand cloudflared access ssh --hostname %h
+                " > ~/.ssh/config
+          chmod 600 ~/.ssh/config
+
+      - name: SSH into server
+        run: |
+          ssh ssh.marketfractals.com "echo 'Deploying application'; docker-compose up --build -d"
+        env:
+          CLOUDFLARE_TUNNEL_TOKEN: ${{ secrets.CLOUDFLARE_TUNNEL_TOKEN }}
+      - name: Launch the APP
+        run: |
             git pull origin main
             docker-compose up --build -d
