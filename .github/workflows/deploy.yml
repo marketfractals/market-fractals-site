@@ -41,10 +41,11 @@ jobs:
       - name: Set up SSH configuration
         run: |
           mkdir -p ~/.ssh
+          chmod 600 ~/.ssh/
           ssh-keyscan ssh.marketfractals.com >> ~/.ssh/known_hosts
           echo "${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          echo -e "Host ssh.marketfractals.com
+          echo -e "Host ssh.marketfractals.com\n    StrictHostKeyChecking=no\n
                 Hostname ssh.marketfractals.com
                 User ${{ secrets.USER }}
                 Port 22
