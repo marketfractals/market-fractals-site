@@ -55,6 +55,14 @@ jobs:
                 " > ~/.ssh/config
           chmod 600 ~/.ssh/config
 
+
+      - name: Set up SSH agent
+        run: |
+          echo "${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}" | ssh-add - > /dev/null
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}
+
+
       - name: Debugging Cloudflare and SSH Config
         run: |
           echo "Listing all SSH configurations:"
@@ -72,7 +80,7 @@ jobs:
 
       - name: SSH into server and deploy
         run: |
-          ssh -v -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com << 'EOF'
+          ssh -v -o StrictHostKeyChecking=no ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com << 'EOF'
             echo "Deploying application";
             git pull origin main;
             docker-compose up --build -d;
