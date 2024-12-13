@@ -68,10 +68,16 @@ jobs:
           echo "chekc ssh_config.d"
           ls -al /etc/ssh/ssh_config.d/
 
-      - name: SSH into server
+      - name: Debug SSH Connection
         run: |
-          ssh -vvv ssh.marketfractals.com "echo 'Deploying application'; 
-          git pull origin main; 
-          docker-compose up --build -d"
+          ssh -v -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com "echo 'SSH connection successful'"
+
+      - name: SSH into server and deploy
+        run: |
+          ssh -v -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com << 'EOF'
+            echo "Deploying application";
+            git pull origin main;
+            docker-compose up --build -d;
+          EOF
         env:
           CF_TUNNEL_TOKEN: ${{ secrets.CloudFlare_Tunnel_Token }}
