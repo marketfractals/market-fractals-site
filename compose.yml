@@ -4,8 +4,6 @@ services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     command: tunnel --no-autoupdate run --token {{ secrets.CloudFlare_Tunnel_Token }}
-    ports:
-      - "7844:7844"
     networks:
       - react-app-network
 
