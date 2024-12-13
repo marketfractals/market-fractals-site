@@ -70,10 +70,6 @@ jobs:
           echo "chekc ssh_config.d"
           ls -al /etc/ssh/ssh_config.d/
 
-      - name: Debug SSH Connection
-        run: |
-          ssh -v -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com
-
       - name: SSH into server and deploy
         run: |
           ssh -v -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com << 'EOF'
