@@ -43,7 +43,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          echo "Host github.com
+          echo -e "Host github.com
                 Hostname ssh.github.com
                 User github
                 ProxyCommand cloudflared access ssh --hostname %h
@@ -65,6 +65,9 @@ jobs:
           echo "chekc ssh_config.d"
           ls -al /etc/ssh/ssh_config.d/
 
+      - name: Test SSH connection
+        run: |
+          ssh -v github.com
 
       - name: SSH into server
         run: |
