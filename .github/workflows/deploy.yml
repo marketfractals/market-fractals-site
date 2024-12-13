@@ -41,8 +41,8 @@ jobs:
       - name: Set up SSH configuration
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
           echo -e "Host ssh.marketfractals.com
                 Hostname ssh.marketfractals.com
                 User ${{ secrets.USER }}
@@ -68,6 +68,8 @@ jobs:
 
       - name: SSH into server
         run: |
-          ssh -vvv ssh.marketfractals.com "echo 'Deploying application'; git pull origin main; docker-compose up --build -d"
+          ssh -vvv ssh.marketfractals.com "echo 'Deploying application'; 
+          git pull origin main; 
+          docker-compose up --build -d"
         env:
           CF_TUNNEL_TOKEN: ${{ secrets.CloudFlare_Tunnel_Token }}
