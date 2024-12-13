@@ -64,6 +64,8 @@ jobs:
           cat /etc/ssh/ssh_config || echo "No SSH config file"
           echo "chekc ssh_config.d"
           ls -al /etc/ssh/ssh_config.d/
+
+          
       - name: SSH into server
         run: |
           ssh -vvv ssh.marketfractals.com "echo 'Deploying application'; git pull origin main; docker-compose up --build -d"

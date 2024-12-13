@@ -3,7 +3,7 @@ version: '3'
 services:
   cloudflared:
     image: cloudflare/cloudflared:latest
-    command: tunnel --no-autoupdate run --token {{ secrets.CloudFlare_Tunnel_Token }}
+    command: tunnel --no-autoupdate run --token ${{ secrets.CloudFlare_Tunnel_Token }}
     networks:
       - react-app-network
 
