@@ -32,9 +32,6 @@ jobs:
     # Copy Docker image to server and deploy
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Install Wrangler Globally
-        run: npm install -g wrangler@3.15.0
         
       - name: SSH into server and deploy
         uses: appleboy/ssh-action@v0.1.7
@@ -44,6 +41,5 @@ jobs:
           key: ${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}
           port: 22
           script: |
-            cd /path/to/your/project
             git pull origin main
             docker-compose up --build -d
