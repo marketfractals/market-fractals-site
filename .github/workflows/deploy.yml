@@ -72,7 +72,7 @@ jobs:
 
       - name: Debug SSH Connection
         run: |
-          ssh -v -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com "echo 'SSH connection successful'"
+          ssh -v -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com
 
       - name: SSH into server and deploy
         run: |
