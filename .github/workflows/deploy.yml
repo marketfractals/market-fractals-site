@@ -76,7 +76,7 @@ jobs:
 
       - name: SSH into server and deploy
         run: |
-          ssh -v -o StrictHostKeyChecking=no -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com
+          ssh -v -o StrictHostKeyChecking=no -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com \
           "echo 'Deploying application'; git pull origin main; docker-compose up --build -d;"
         env:
           CF_TUNNEL_TOKEN: ${{ secrets.CloudFlare_Tunnel_Token }}
