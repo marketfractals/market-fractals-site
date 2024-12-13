@@ -38,13 +38,6 @@ jobs:
           chmod +x cloudflared
           sudo mv cloudflared /usr/local/bin/cloudflared
 
-
-      - name: Test ssh-keyscan
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ssh.marketfractals.com
-
-
       - name: Set up SSH configuration
         run: |
           mkdir -p ~/.ssh
