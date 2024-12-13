@@ -50,6 +50,16 @@ jobs:
                 " > ~/.ssh/config
           chmod 600 ~/.ssh/config
 
+      - name: Debugging Cloudflare and SSH Config
+        run: |
+          echo "Listing all SSH configurations:"
+          ls -al /etc/ssh/
+          echo "Listing files in cloudflared config directory:"
+          ls -al /etc/cloudflared/
+          echo "Displaying content of config files:"
+          cat /etc/cloudflared/config.yml || echo "No cloudflared config file"
+          cat /etc/ssh/ssh_config || echo "No SSH config file"
+
       - name: SSH into server
         run: |
           ssh -v ssh.marketfractals.com "echo 'Deploying application'; git pull origin main; docker-compose up --build -d"
