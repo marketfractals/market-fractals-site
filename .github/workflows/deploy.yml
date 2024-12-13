@@ -39,7 +39,7 @@ jobs:
           host: ssh.marketfractals.com  # The Cloudflare Tunnel hostname
           username: ${{ secrets.USER }}
           key: ${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}
-          port: 22
+          ports: "22:22"
           script: |
             git pull origin main
             docker-compose up --build -d
