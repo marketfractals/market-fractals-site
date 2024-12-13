@@ -42,7 +42,6 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.MARKETFRACTALS_PUBLIC_KEY }}" >> ~/.ssh/known_hosts
-          echo "${{ secrets.MARKETFRACTALS_PUBLIC_KEY }}" >> ~/.ssh/known_hosts2
           echo "${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           echo -e "Host market-fractals
