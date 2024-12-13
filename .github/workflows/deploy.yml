@@ -37,11 +37,18 @@ jobs:
           curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o cloudflared
           chmod +x cloudflared
           sudo mv cloudflared /usr/local/bin/cloudflared
-        
+
+
+      - name: Test ssh-keyscan
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ssh.marketfractals.com
+
+
       - name: Set up SSH configuration
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -H ssh.marketfractals.com >> ~/.ssh/known_hosts
+          ssh-keyscan ssh.marketfractals.com >> ~/.ssh/known_hosts
           echo "${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           echo -e "Host market-fractals\n    StrictHostKeyChecking=no\n
