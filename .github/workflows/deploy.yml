@@ -43,9 +43,9 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          echo "Host ssh.marketfractals.com
-                Hostname ssh.marketfractals.com
-                User ${{ secrets.USER }}
+          echo "Host github.com
+                Hostname ssh.github.com
+                User github
                 ProxyCommand cloudflared access ssh --hostname %h
                 " > ~/.ssh/config
           chmod 600 ~/.ssh/config
@@ -65,7 +65,7 @@ jobs:
           echo "chekc ssh_config.d"
           ls -al /etc/ssh/ssh_config.d/
 
-          
+
       - name: SSH into server
         run: |
           ssh -vvv ssh.marketfractals.com "echo 'Deploying application'; git pull origin main; docker-compose up --build -d"
