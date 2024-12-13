@@ -52,6 +52,6 @@ jobs:
 
       - name: SSH into server
         run: |
-          ssh ssh.marketfractals.com "echo 'Deploying application'; git pull origin main; docker-compose up --build -d"
+          ssh -v ssh.marketfractals.com "echo 'Deploying application'; git pull origin main; docker-compose up --build -d"
         env:
           CLOUDFLARE_TUNNEL_TOKEN: ${{ secrets.CLOUDFLARE_TUNNEL_TOKEN }}
