@@ -1,6 +1,25 @@
 version: '3'
+
 services:
-  react-app:
-    image: market-fractals-site
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token {{ secrets.CloudFlare_Tunnel_Token }}
     ports:
-      - "5000:5000"
+      - "7844:7844"
+    networks:
+      - react-app-network
+
+  react-app:
+    build: .
+    image: market-fractals-site:v1.0
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production  # Optional, set your app environment
+    networks:
+      - react-app-network
+
+networks:
+  react-app-network:
+    driver: bridge
