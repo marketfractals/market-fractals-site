@@ -56,9 +56,9 @@ jobs:
           ls -al /etc/ssh/
           echo "Listing files in cloudflared config directory:"
           which cloudflared || echo "No CloudFlared Found"
-          ls -al /etc/cloudflared/
+          ls -al /usr/local/bin/cloudflared
           echo "Displaying content of config files:"
-          cat /etc/cloudflared/config.yml || echo "No cloudflared config file"
+          cat /usr/local/bin/cloudflared/config.yml || echo "No cloudflared config file"
           cat /etc/ssh/ssh_config || echo "No SSH config file"
 
       - name: SSH into server
