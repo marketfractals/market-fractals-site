@@ -46,6 +46,7 @@ jobs:
           echo -e "Host github.com
                 Hostname ssh.github.com
                 User github
+                Port 443
                 ProxyCommand cloudflared access ssh --hostname %h
                 " > ~/.ssh/config
           chmod 600 ~/.ssh/config
@@ -67,7 +68,7 @@ jobs:
 
       - name: Test SSH connection
         run: |
-          ssh -v github.com
+          ssh -vvv github.com
 
       - name: SSH into server
         run: |
