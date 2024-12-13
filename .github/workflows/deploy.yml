@@ -43,10 +43,11 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.MARKETFRACTALS_GITHUB_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          echo -e "Host ssh.marketfractals.com\n    StrictHostKeyChecking=no\n
+          echo -e "Host market-fractals\n    StrictHostKeyChecking=no\n
                 Hostname ssh.marketfractals.com
+                IdentityFile ~/.ssh/id_rsa
                 User ${{ secrets.USER }}
-                Password ${{ secrets.PASSWORD }}
+                LogLevel VERBOSE
                 Port 22
                 ProxyCommand cloudflared access ssh --hostname %h
                 " > ~/.ssh/config
