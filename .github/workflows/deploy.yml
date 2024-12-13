@@ -54,15 +54,18 @@ jobs:
         run: |
           echo "Listing all SSH configurations:"
           ls -al /etc/ssh/
-          echo "Listing files in cloudflared config directory:"
+          echo "Check if cloudflared exists as command"
           which cloudflared || echo "No CloudFlared Found"
+          echo "Listing files in cloudflared config directory:"
           ls -al /usr/local/bin/cloudflared
-          echo "Displaying content of config files:"
+          echo "Displaying content of cloudflared config files:"
           cat /usr/local/bin/cloudflared/config.yml || echo "No cloudflared config file"
+          echo "Displaying content of ssh config files:"
           cat /etc/ssh/ssh_config || echo "No SSH config file"
-
+          echo "chekc ssh_config.d"
+          ls -al /etc/ssh/ssh_config.d/
       - name: SSH into server
         run: |
-          ssh -v ssh.marketfractals.com "echo 'Deploying application'; git pull origin main; docker-compose up --build -d"
+          ssh -vvv ssh.marketfractals.com "echo 'Deploying application'; git pull origin main; docker-compose up --build -d"
         env:
           CLOUDFLARE_TUNNEL_TOKEN: ${{ secrets.CLOUDFLARE_TUNNEL_TOKEN }}
