@@ -20,6 +20,11 @@ jobs:
         run: |
           curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           chmod +x /usr/local/bin/docker-compose
+      
+      - name: Setting Up Environment
+        run: |
+          CONTAINER_NAME=market-fractals-container
+          IMAGE_NAME=market-fractals-site/market-fractals:v1.0
 
   deploy:
     needs: build
@@ -95,7 +100,7 @@ jobs:
           else
             echo "No image named $IMAGE_NAME exists."
           fi;
-          docker build -t $IMAGE_NAME .;
+          docker build -t .;
           docker-compose up -d;
           exit;"
         env:
