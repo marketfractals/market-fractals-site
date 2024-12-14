@@ -79,7 +79,7 @@ jobs:
           cd $HOME/GitHub/market-fractals-site;
           git pull origin main;
           CONTAINER_NAME=market-fractals-container;
-          IMAGE_NAME=docker.io/market-fractals-site/market-fractals:v1.0;
+          IMAGE_NAME=market-fractals-site/market-fractals:v1.0;
           echo "CONTAINER_NAME is set to: $CONTAINER_NAME";
           echo "IMAGE_NAME is set to: $IMAGE_NAME";
           if docker ps -a --format '{{.Names}}' | grep -q "$CONTAINER_NAME"; then
