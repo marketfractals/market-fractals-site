@@ -9,8 +9,8 @@ services:
       - react-app-network
 
   react-app:
-    #container_name: reac-app-container
-    #image: market-fractals-site/market-fractals:v1.0
+    container_name: reac-app-container
+    image: market-fractals-site/market-fractals:v1.0
     build: .
     ports:
       - "3000:3000"
