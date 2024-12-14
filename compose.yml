@@ -10,7 +10,7 @@ services:
 
   react-app:
     container_name: reac-app-container
-    image: docker.io/domarket-fractals-site/market-fractals:v1.0
+    image: docker.io/market-fractals-site/market-fractals:v1.0
     build: .
     ports:
       - "3000:3000"
