@@ -11,7 +11,7 @@ services:
   react-app:
     container_name: reac-app-container
     build: .
-    image: market-fractals-site:v1.0
+    image: market-fractals-site/market-fractals:v1.0
     ports:
       - "3000:3000"
     restart: unless-stopped
