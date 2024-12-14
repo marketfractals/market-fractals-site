@@ -103,3 +103,5 @@ jobs:
         env:
           CF_TUNNEL_TOKEN: ${{ secrets.CloudFlare_Tunnel_Token }}
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          CONTAINER_NAME: ${CONTAINER_NAME}
+          IMAGE_NAME: ${IMAGE_NAME}
