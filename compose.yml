@@ -9,14 +9,16 @@ services:
       - react-app-network
 
   react-app:
-    container_name: reac-app-container
-    image: docker.io/market-fractals-site/market-fractals:v1.0
+    container_name: ${CONTAINER_NAME}
+    image: ${IMAGE_NAME}
     build: .
     ports:
       - "3000:3000"
     restart: unless-stopped
     environment:
       - NODE_ENV=production  # Optional, set your app environment
+      - CONTAINER_NAME = ${CONTAINER_NAME}
+      - IMAGE_NAME = ${IMAGE_NAME}
     networks:
       - react-app-network
 
