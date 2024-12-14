@@ -76,7 +76,7 @@ jobs:
           ssh -v -o StrictHostKeyChecking=no \
           -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com \
           "echo 'Deploying application';
-          cd $HOME/GitHub/market-fractals-site;
+          cd /home/market-fractals/GitHub/market-fractals-site;
           git pull origin main;
           if docker ps -a --format '{{.Names}}' | grep -q "market-fractals-container"; then
             docker stop "market-fractals-container"
