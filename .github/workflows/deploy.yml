@@ -75,8 +75,8 @@ jobs:
         run: |
           ssh -v -o StrictHostKeyChecking=no \
           -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com \
-          "echo 'Deploying application'; 
-          cd /home/market-fractals/GitHub/market-fractals-site; 
+          "echo 'Deploying application';
+          cd $HOME/GitHub/market-fractals-site;
           git pull origin main;
           CONTAINER_NAME=market-fractals-container;
           IMAGE_NAME=docker.io/market-fractals-site/market-fractals:v1.0;
@@ -89,15 +89,15 @@ jobs:
           else
             echo "No container named $CONTAINER_NAME exists."
           fi;
-          if docker images -q "$IMAGE_NAME" > /dev/null; then
+          if [ -n "$(docker images -q "$IMAGE_NAME")" ]; then
             docker rmi -f "$IMAGE_NAME"
             echo "Removed existing image $IMAGE_NAME."
           else
             echo "No image named $IMAGE_NAME exists."
           fi;
-          docker build -t $IMAGE_NAME .; 
+          docker build -t $IMAGE_NAME .;
           docker-compose up -d;
-          exit"
+          exit;"
         env:
           CF_TUNNEL_TOKEN: ${{ secrets.CloudFlare_Tunnel_Token }}
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
