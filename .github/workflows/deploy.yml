@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-    # Copy Docker image to server and deploy
+    # SSH into server through CloudFlare and run sell commands
+    # Note that the environment variables can only be set in GitHub secrets to pass over to ssh shell
+    # Tech debt: replace hard-code directories and names and read from .env variables 
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Install Cloudflared
