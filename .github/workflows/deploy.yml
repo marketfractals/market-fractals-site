@@ -71,6 +71,12 @@ jobs:
           echo "chekc ssh_config.d"
           ls -al /etc/ssh/ssh_config.d/
 
+      - name: Load Environment Variables
+        run: |
+          export $(grep -v '^#' .env | xargs)
+          echo "Container Name: $CONTAINER_NAME"
+          echo "Image Name: $IMAGE_NAME"
+
       - name: SSH into server and deploy
         run: |
           ssh -v -o StrictHostKeyChecking=no \
