@@ -76,6 +76,11 @@ jobs:
           echo "chekc ssh_config.d"
           ls -al /etc/ssh/ssh_config.d/
 
+      - name: Setting Up Environment
+        run: |
+          CONTAINER_NAME=market-fractals-container
+          IMAGE_NAME=market-fractals-site/market-fractals:v1.0
+
       - name: SSH into server and deploy
         run: |
           ssh -v -o StrictHostKeyChecking=no \
@@ -100,7 +105,7 @@ jobs:
           else
             echo "No image named $IMAGE_NAME exists."
           fi;
-          docker build -t .;
+          docker build .;
           docker-compose up -d;
           exit;"
         env:
