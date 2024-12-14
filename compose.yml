@@ -1,5 +1,6 @@
 services:
   cloudflared:
+    container_name: cloudflare-container
     image: cloudflare/cloudflared:latest
     command: tunnel --no-autoupdate run --token ${CF_TUNNEL_TOKEN}
     environment:
@@ -8,6 +9,7 @@ services:
       - react-app-network
 
   react-app:
+    container_name: reac-app-container
     build: .
     image: market-fractals-site:v1.0
     ports:
