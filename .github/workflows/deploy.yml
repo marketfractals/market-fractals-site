@@ -78,8 +78,7 @@ jobs:
           "echo 'Deploying application'; 
           cd /home/market-fractals/GitHub/market-fractals-site; 
           git pull origin main;
-          echo "Contents of .env file:"
-          cat .env;
+          grep --version;
           export $(grep -v '^#' .env | xargs);
           echo "CONTAINER_NAME is set to: $CONTAINER_NAME";
           echo "IMAGE_NAME is set to: $IMAGE_NAME";
