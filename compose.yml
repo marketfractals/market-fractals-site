@@ -17,8 +17,8 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production  # Optional, set your app environment
-      - CONTAINER_NAME = ${CONTAINER_NAME}
-      - IMAGE_NAME = ${IMAGE_NAME}
+      - CONTAINER_NAME=${CONTAINER_NAME}
+      - IMAGE_NAME=${IMAGE_NAME}
     networks:
       - react-app-network
 
