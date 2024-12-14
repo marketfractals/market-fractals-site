@@ -20,11 +20,6 @@ jobs:
         run: |
           curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           chmod +x /usr/local/bin/docker-compose
-      
-      - name: Setting Up Environment
-        run: |
-          CONTAINER_NAME=market-fractals-container
-          IMAGE_NAME=market-fractals-site/market-fractals:v1.0
 
   deploy:
     needs: build
@@ -76,11 +71,6 @@ jobs:
           echo "chekc ssh_config.d"
           ls -al /etc/ssh/ssh_config.d/
 
-      - name: Setting Up Environment
-        run: |
-          CONTAINER_NAME=market-fractals-container
-          IMAGE_NAME=market-fractals-site/market-fractals:v1.0
-
       - name: SSH into server and deploy
         run: |
           ssh -v -o StrictHostKeyChecking=no \
@@ -88,24 +78,20 @@ jobs:
           "echo 'Deploying application';
           cd $HOME/GitHub/market-fractals-site;
           git pull origin main;
-          CONTAINER_NAME=market-fractals-container;
-          IMAGE_NAME=market-fractals-site/market-fractals:v1.0;
-          echo "CONTAINER_NAME is set to: $CONTAINER_NAME";
-          echo "IMAGE_NAME is set to: $IMAGE_NAME";
-          if docker ps -a --format '{{.Names}}' | grep -q "$CONTAINER_NAME"; then
-            docker stop "$CONTAINER_NAME"
-            docker rm "$CONTAINER_NAME"
-            echo "Removed existing container $CONTAINER_NAME."
+          if docker ps -a --format '{{.Names}}' | grep -q "market-fractals-container"; then
+            docker stop "market-fractals-container"
+            docker rm "market-fractals-container"
+            echo "Removed existing container market-fractals-container."
           else
-            echo "No container named $CONTAINER_NAME exists."
+            echo "No container named market-fractals-container exists."
           fi;
-          if [ -n "$(docker images -q "$IMAGE_NAME")" ]; then
-            docker rmi -f "$IMAGE_NAME"
-            echo "Removed existing image $IMAGE_NAME."
+          if [ -n "$(docker images -q "market-fractals-site/market-fractals:v1.0")" ]; then
+            docker rmi -f "market-fractals-site/market-fractals:v1.0"
+            echo "Removed existing image market-fractals-site/market-fractals:v1.0."
           else
-            echo "No image named $IMAGE_NAME exists."
+            echo "No image named market-fractals-site/market-fractals:v1.0."
           fi;
-          docker build .;
+          docker build -t market-fractals-site/market-fractals:v1.0 .;
           docker-compose up -d;
           exit;"
         env:
