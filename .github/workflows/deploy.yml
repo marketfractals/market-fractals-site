@@ -79,7 +79,7 @@ jobs:
           cd /home/market-fractals/GitHub/market-fractals-site; 
           git pull origin main; 
           docker build -t market-fractals-site/market-fractals:v1.0 .; 
-          docker-compose up; 
+          docker-compose up -d; 
           exit"
         env:
           CF_TUNNEL_TOKEN: ${{ secrets.CloudFlare_Tunnel_Token }}
