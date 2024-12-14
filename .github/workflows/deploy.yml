@@ -79,8 +79,8 @@ jobs:
           cd /home/market-fractals/GitHub/market-fractals-site; 
           git pull origin main; 
           export $(grep -v '^#' .env | xargs);
-          echo "CONTAINER_NAME is set to: ${{CONTAINER_NAME}}";
-          echo "IMAGE_NAME is set to: ${{IMAGE_NAME}}";
+          echo "CONTAINER_NAME is set to: $CONTAINER_NAME";
+          echo "IMAGE_NAME is set to: $IMAGE_NAME";
           if docker ps -a --format '{{.Names}}' | grep -q "$CONTAINER_NAME"; then
             docker stop "$CONTAINER_NAME"
             docker rm "$CONTAINER_NAME"
@@ -100,5 +100,5 @@ jobs:
         env:
           CF_TUNNEL_TOKEN: ${{ secrets.CloudFlare_Tunnel_Token }}
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          CONTAINER_NAME: $CONTAINER_NAME
-          IMAGE_NAME: $IMAGE_NAME
+          CONTAINER_NAME: ${CONTAINER_NAME}
+          IMAGE_NAME: ${IMAGE_NAME}
