@@ -77,7 +77,7 @@ jobs:
           -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com \
           "echo 'Deploying application'; 
           cd /home/market-fractals/GitHub/market-fractals-site; 
-          git pull origin main; 
+          git pull origin main;
           export $(grep -v '^#' .env | xargs);
           echo "CONTAINER_NAME is set to: $CONTAINER_NAME";
           echo "IMAGE_NAME is set to: $IMAGE_NAME";
@@ -95,7 +95,7 @@ jobs:
             echo "No image named $IMAGE_NAME exists."
           fi;
           docker build -t docker.io/market-fractals-site/market-fractals:v1.0 .; 
-          docker-compose up -d; 
+          docker-compose up -d;
           exit"
         env:
           CF_TUNNEL_TOKEN: ${{ secrets.CloudFlare_Tunnel_Token }}
