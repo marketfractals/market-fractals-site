@@ -78,7 +78,7 @@ jobs:
           "echo 'Deploying application'; 
           cd /home/market-fractals/GitHub/market-fractals-site; 
           git pull origin main; 
-          docker build -t market-fractals-site/market-fractals:v1.0 .; 
+          docker build -t docker.io/market-fractals-site/market-fractals:v1.0 .; 
           docker-compose up -d; 
           exit"
         env:
