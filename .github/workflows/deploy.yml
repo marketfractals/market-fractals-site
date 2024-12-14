@@ -77,11 +77,7 @@ jobs:
           -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com \
           "echo 'Deploying application'; 
           cd /home/market-fractals/GitHub/market-fractals-site; 
-          git pull origin main;
-          grep --version;
-          export $(grep -v '^#' .env | xargs);
-          echo "CONTAINER_NAME is set to: $CONTAINER_NAME";
-          echo "IMAGE_NAME is set to: $IMAGE_NAME";
+          git pull origin main;export $(grep -v '^#' .env | xargs);echo "CONTAINER_NAME is set to: $CONTAINER_NAME";echo "IMAGE_NAME is set to: $IMAGE_NAME";env;
           if docker ps -a --format '{{.Names}}' | grep -q "$CONTAINER_NAME"; then
             docker stop "$CONTAINER_NAME"
             docker rm "$CONTAINER_NAME"
