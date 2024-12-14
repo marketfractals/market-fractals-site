@@ -77,7 +77,11 @@ jobs:
           -o ProxyCommand="cloudflared access ssh --hostname ssh.marketfractals.com" ${{ secrets.USER }}@ssh.marketfractals.com \
           "echo 'Deploying application'; 
           cd /home/market-fractals/GitHub/market-fractals-site; 
-          git pull origin main;export $(grep -v '^#' .env | xargs);echo "CONTAINER_NAME is set to: $CONTAINER_NAME";echo "IMAGE_NAME is set to: $IMAGE_NAME";env;
+          git pull origin main;
+          CONTAINER_NAME=market-fractals-container;
+          IMAGE_NAME=docker.io/market-fractals-site/market-fractals:v1.0;
+          echo "CONTAINER_NAME is set to: $CONTAINER_NAME";
+          echo "IMAGE_NAME is set to: $IMAGE_NAME";
           if docker ps -a --format '{{.Names}}' | grep -q "$CONTAINER_NAME"; then
             docker stop "$CONTAINER_NAME"
             docker rm "$CONTAINER_NAME"
@@ -91,7 +95,7 @@ jobs:
           else
             echo "No image named $IMAGE_NAME exists."
           fi;
-          docker build -t docker.io/market-fractals-site/market-fractals:v1.0 .; 
+          docker build -t $IMAGE_NAME .; 
           docker-compose up -d;
           exit"
         env:
