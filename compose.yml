@@ -6,22 +6,42 @@ services:
     environment:
       - CF_TUNNEL_TOKEN=${CF_TUNNEL_TOKEN}
     networks:
-      - react-app-network
+      - app-network
 
-  react-app:
-    container_name: ${CONTAINER_NAME}
-    image: ${IMAGE_NAME}
-    build: .
+  backend:
+    container_name: ${CONTAINER_NAME_BACKEND}
+    image: ${IMAGE_NAME_BACKEND}
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DEBUG=True
+      - NODE_ENV=production
+      - CONTAINER_NAME=${CONTAINER_NAME_BACKEND}
+      - IMAGE_NAME=${IMAGE_NAME_BACKEND}
+  
+  frontend:
+    container_name: ${CONTAINER_NAME_FRONTEND}
+    image: ${IMAGE_NAME_FRONTEND}
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend:/app
     restart: unless-stopped
     environment:
-      - NODE_ENV=production  # Optional, set your app environment
-      - CONTAINER_NAME=${CONTAINER_NAME}
-      - IMAGE_NAME=${IMAGE_NAME}
+      - NODE_ENV=production
+      - CONTAINER_NAME=${CONTAINER_NAME_FRONTEND}
+      - IMAGE_NAME=${IMAGE_NAME_FRONTEND}
     networks:
-      - react-app-network
+      - app-network
 
 networks:
-  react-app-network:
+  app-network:
     driver: bridge
