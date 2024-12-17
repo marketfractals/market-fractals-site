@@ -20,5 +20,5 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('treemap/', include('treemap.urls')),
+    path('treemap/', include('treemap.urls'), name='home'),
 ] + debug_toolbar_urls()
