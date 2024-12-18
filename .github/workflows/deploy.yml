@@ -77,7 +77,8 @@ jobs:
           else
             echo "No image named market-fractals-site/market-fractals:v1.0."
           fi;
-          docker build -t market-fractals-site/market-fractals:v1.0 .;
+          docker build -t market-fractals-site/market-fractals:v1.0 ./frontend;
+          docker build -t market-fractals-site/market-fractals-data:v1.0 ./backend;
           docker-compose up -d;
           exit;"
         env:
