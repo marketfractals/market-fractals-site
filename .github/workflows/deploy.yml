@@ -64,19 +64,12 @@ jobs:
           "echo 'Deploying application';
           cd /home/market-fractals/GitHub/market-fractals-site;
           git pull origin main;
-          if docker ps -a --format '{{.Names}}' | grep -q "market-fractals-container"; then
-            docker stop "market-fractals-container"
-            docker rm "market-fractals-container"
-            echo "Removed existing container market-fractals-container."
-          else
-            echo "No container named market-fractals-container exists."
-          fi;
-          if [ -n "$(docker images -q "market-fractals-site/market-fractals:v1.0")" ]; then
-            docker rmi -f "market-fractals-site/market-fractals:v1.0"
-            echo "Removed existing image market-fractals-site/market-fractals:v1.0."
-          else
-            echo "No image named market-fractals-site/market-fractals:v1.0."
-          fi;
+          docker stop "market-fractals-container-frontend" 2>/dev/null;
+          docker stop "market-fractals-container-backend" 2>/dev/null;
+          docker rm "market-fractals-container-frontend" 2>/dev/null;
+          docker rm "market-fractals-container-backend" 2>/dev/null;
+          docker rmi -f "market-fractals-site/market-fractals-frontend:v1.0" 2>/dev/null;
+          docker rmi -f "market-fractals-site/market-fractals-backend:v1.0" 2>/dev/null;
           docker build -t market-fractals-site/market-fractals:v1.0 ./frontend;
           docker build -t market-fractals-site/market-fractals-data:v1.0 ./backend;
           docker-compose up -d;

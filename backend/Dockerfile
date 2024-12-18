@@ -17,10 +17,7 @@ COPY . /app/
 RUN pip install pipenv
 
 # Install dependencies directly using pipenv
-RUN pipenv install --deploy --ignore-pipfile
-
-# Verify gunicorn is installed (optional debugging step)
-RUN pipenv run pip show gunicorn
+RUN pipenv install
 
 # Command to run the application
 CMD ["pipenv", "run", "gunicorn", "--bind", "0.0.0.0:8000", "src.wsgi:application"]
