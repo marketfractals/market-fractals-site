@@ -19,8 +19,11 @@ RUN pip install pipenv
 # Install dependencies directly using pipenv
 RUN pipenv install --deploy --ignore-pipfile
 
+# Verify gunicorn is installed (optional debugging step)
+RUN pipenv run pip show gunicorn
+
 # Command to run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "project_name.wsgi:src"]
+CMD ["pipenv", "run", "gunicorn", "--bind", "0.0.0.0:8000", "src.wsgi:application"]
 
 # Expose the port the app runs on
 EXPOSE 8000
